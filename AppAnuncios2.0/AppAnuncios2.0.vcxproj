@@ -19,7 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp" />
+    <ClInclude Include="Anuncio.h" />
+    <ClInclude Include="App.h" />
+    <ClInclude Include="MainFrame.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Anuncio.cpp" />
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="MainFrame.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -110,7 +117,7 @@
       <AdditionalIncludeDirectories>$(WXWIN)\include\msvc;$(WXWIN)\include;$(SFMLWIN)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SFMLWIN)\lib;$(WXWIN)\lib\vc_x64_lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
