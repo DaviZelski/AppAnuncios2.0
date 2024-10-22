@@ -3,6 +3,12 @@
 #include "Anuncio.h"
 #include <SFML/Audio.hpp>
 #include <string>
+#include <shellapi.h>
+#include <Windows.h>
+#include <wx/dirdlg.h>
+#include <wx/filedlg.h>
+#define _CRT_SECURE_NO_WARNINGS
+
 using namespace std;
 
 enum IDs {
@@ -14,9 +20,11 @@ wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
 wxEND_EVENT_TABLE();
 
 MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {
-	wxPanel* mainPanel = new wxPanel(this);
+	mainPanel = new wxPanel(this);
 
 	wxButton* playButton = new wxButton(mainPanel, PLAY_BUTTON, "Tocar Anúncio", wxDefaultPosition, wxDefaultSize);
+
+	
 
 	CreateStatusBar();
 
@@ -24,11 +32,30 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 
 void MainFrame::OnButtonClicked(wxCommandEvent& evt) {
 	Anuncio* anuncio = new Anuncio;
-	sf::Music music;
-	if (!music.openFromFile("C:\\Users\\cyber\\source\\repos\\AppAnuncios2.0\\x64\\Debug\\anuncioTeste.ogg")) {
-		//nao carrega pqp vai a merda
 
-		wxString string = wxString::Format("Caminho nao encontrado: %s", anuncio->GetFilePath());
+	/*dlg = new wxDirDialog(mainPanel, "Escolha a pasta", "C:\\Users\\Davi\\Desktop\\avisos");
+	dlg->ShowModal();
+	dlg->GetPath();*/
+	//apenas para selecionar pastas e retornar o caminho, vou deixar aqui pq vai ser util mais tarde
+
+	fdlg = new wxFileDialog(mainPanel, "Escolha o anúncio", "C:\\Users\\Davi\\Desktop\\avisos");
+	fdlg->ShowModal();
+
+	wxString string = wxString::Format("%s", fdlg->GetCurrentlySelectedFilename());
+	
+		wxLogStatus(string);
+	
+	
+	
+	/*if (anuncio->SetFilePath(fdlg->GetCurrentlySelectedFilename())) {
+		wxString string =  wxString::Format("Arquivo selecionado: %s", anuncio->GetFilePath());
+		wxLogStatus(string);
+	}*/
+	
+
+	/*if (!announcementPlayer.openFromFile(anuncio->GetFilePath())) {
+
+		wxString string = wxString::Format("Caminho nao encontrado");
 		wxLogStatus(string);
 
 		wxLogStatus(string);
@@ -36,5 +63,9 @@ void MainFrame::OnButtonClicked(wxCommandEvent& evt) {
 	else {
 		wxString string = wxString::Format("Caminho encontrado: %s", anuncio->GetFilePath());
 		wxLogStatus(string);
-	}
+	}*/
+
+
+	//announcementPlayer.play();
 }
+
