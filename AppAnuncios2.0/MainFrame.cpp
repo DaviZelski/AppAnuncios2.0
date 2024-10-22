@@ -41,31 +41,23 @@ void MainFrame::OnButtonClicked(wxCommandEvent& evt) {
 	fdlg = new wxFileDialog(mainPanel, "Escolha o anúncio", "C:\\Users\\Davi\\Desktop\\avisos");
 	fdlg->ShowModal();
 
-	wxString string = wxString::Format("%s", fdlg->GetCurrentlySelectedFilename());
+	wxString fPathConv = wxString::Format("%s", fdlg->GetCurrentlySelectedFilename());
 	
-		wxLogStatus(string);
-	
-	
-	
-	/*if (anuncio->SetFilePath(fdlg->GetCurrentlySelectedFilename())) {
-		wxString string =  wxString::Format("Arquivo selecionado: %s", anuncio->GetFilePath());
-		wxLogStatus(string);
-	}*/
-	
+	anuncio->SetFilePath(fPathConv);
+	wxString pathVerify = wxString::Format("%s", anuncio->GetFilePath());
 
-	/*if (!announcementPlayer.openFromFile(anuncio->GetFilePath())) {
+	if (!announcementPlayer.openFromFile(anuncio->GetFilePath())) {
 
 		wxString string = wxString::Format("Caminho nao encontrado");
 		wxLogStatus(string);
 
-		wxLogStatus(string);
 	}
 	else {
 		wxString string = wxString::Format("Caminho encontrado: %s", anuncio->GetFilePath());
 		wxLogStatus(string);
-	}*/
+	}
 
 
-	//announcementPlayer.play();
+	announcementPlayer.play();
 }
 
