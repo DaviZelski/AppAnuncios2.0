@@ -26,6 +26,8 @@
   <ItemGroup>
     <ClCompile Include="Anuncio.cpp" />
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Main.h" />
     <ClCompile Include="MainFrame.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

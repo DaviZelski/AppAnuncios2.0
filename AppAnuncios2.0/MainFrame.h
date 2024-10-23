@@ -3,6 +3,7 @@
 #include <SFML/audio.hpp>
 #include <wx/dirdlg.h>
 #include <wx/filedlg.h>
+#include <wx/spinctrl.h>
 #define _CRT_SECURE_NO_WARNINGS
 
 class MainFrame : public wxFrame {
@@ -16,7 +17,7 @@ private:
 	wxDECLARE_EVENT_TABLE();
 
 	
-
+	wxSpinCtrl* loopControl;
 	wxDirDialog* dlg;
 	//dialog para selecionar pasta. Interessant porém não é util no momento
 	wxFileDialog* fdlg;
