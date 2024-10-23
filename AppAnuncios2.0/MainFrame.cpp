@@ -16,7 +16,8 @@
 
 enum IDs {
 	PLAY_BUTTON = 2,
-	LOOP_CONTROL = 3
+	LOOP_CONTROL = 3,
+	VOLUME_SLIDER = 4
 };
 
 wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
@@ -30,15 +31,21 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, 
 
 	//wxMenuBar* menuBar = new wxMenuBar(2, ); https://docs.wxwidgets.org/3.2.5/classwx_menu_bar.html#aebc5627ed35e364d6a9785e22c0dde85
 
-	wxButton* playButton = new wxButton(mainPanel, PLAY_BUTTON, "Tocar Anúncio", wxPoint(100, 100), wxDefaultSize);
+	playButton = new wxButton(mainPanel, PLAY_BUTTON, "Tocar Anúncio", wxPoint(100, 100), wxDefaultSize);
 	
-	wxStaticText* loopControlText = new wxStaticText(mainPanel, wxID_ANY, "Quantidade de loops", wxPoint(220, 80));
+	wxStaticText* lCtrlTxt = new wxStaticText(mainPanel, wxID_ANY, "Quantidade de loops", wxPoint(220, 80));
 	loopControl = new wxSpinCtrl(mainPanel, LOOP_CONTROL, "", wxPoint(250, 100), wxDefaultSize, wxSP_WRAP, 1, 10, 1);
+	
+	wxStaticText* sSldTxt = new wxStaticText(mainPanel, wxID_ANY, "Volume da música", wxPoint(360, 80));
+	volumeSlider = new wxSlider(mainPanel, VOLUME_SLIDER, 17, 0, 100, wxPoint(370, 100), wxDefaultSize, wxSL_VALUE_LABEL);
+
 
 	CreateStatusBar();
 	
-
+	
 }
+
+//TENTAR IMPLEMENTAR TEXTO PARA FALA COM https://github.com/rhasspy/piper
 
 
 void MainFrame::OnButtonClicked(wxCommandEvent& evt) {
@@ -70,14 +77,14 @@ void MainFrame::OnButtonClicked(wxCommandEvent& evt) {
 
 	}
 	else {
-		wxString string = wxString::Format("Caminho encontrado: %s", anuncio->GetFilePath());
+		wxString string = wxString::Format("Tocando %s, com a musica no volume %d", anuncio->GetFilePath(), volumeSlider->GetValue());
 		wxLogStatus(string);
 	}
 
 	
+	int musicVolume = volumeSlider->GetValue();
 
-
-	thread anuncioThread(tocarAnuncio, anuncio, loopCount);
+	thread anuncioThread(TocarAnuncio, anuncio, loopCount, musicVolume);
 	anuncioThread.detach();
 
 

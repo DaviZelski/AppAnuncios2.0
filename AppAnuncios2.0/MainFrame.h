@@ -21,7 +21,8 @@ private:
 	wxDirDialog* dlg;
 	//dialog para selecionar pasta. Interessant porém não é util no momento
 	wxFileDialog* fdlg;
-
+	wxButton* playButton;
+	wxSlider* volumeSlider;
 	wxPanel* mainPanel;
 
 };
