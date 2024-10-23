@@ -9,7 +9,16 @@
 #include <wx/filedlg.h>
 #include <thread>
 #include <memory>
+#include <mmdeviceapi.h>
+#include <endpointvolume.h>
+#include <audiopolicy.h>
+#include <iostream>
+#include <vector>
 #define _CRT_SECURE_NO_WARNINGS
 
 
-void tocarAnuncio(Anuncio* anuncio, int loopCount);
+void TocarAnuncio(Anuncio* anuncio, int loopCount, int musicVolume);
+
+void SetVolumeForProcess(DWORD processID, float volume, int VOLUME_CONTROL);
+
+void FindSpotifyPID(std::vector<DWORD>& spotifyPIDs);
