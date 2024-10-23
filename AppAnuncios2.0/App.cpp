@@ -1,6 +1,7 @@
 #include "App.h"
 #include "MainFrame.h"
 #include <wx/wx.h>
+#define _CRT_SECURE_NO_WARNINGS
 
 wxIMPLEMENT_APP(App);
 
