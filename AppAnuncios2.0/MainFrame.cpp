@@ -20,21 +20,16 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 
 	CreateStatusBar();
 
+
+
 }
 
 void MainFrame::OnButtonClicked(wxCommandEvent& evt) {
 	Anuncio* anuncio = new Anuncio;
 	sf::Music music;
-	if (!music.openFromFile("C:\\Users\\cyber\\source\\repos\\AppAnuncios2.0\\x64\\Debug\\anuncioTeste.ogg")) {
+	if (!music.openFromFile(anuncio->GetFilePath())){
 		//nao carrega pqp vai a merda
-
-		wxString string = wxString::Format("Caminho nao encontrado: %s", anuncio->GetFilePath());
-		wxLogStatus(string);
-
-		wxLogStatus(string);
-	}
-	else {
-		wxString string = wxString::Format("Caminho encontrado: %s", anuncio->GetFilePath());
-		wxLogStatus(string);
+		
+		wxLogStatus("Caminho nao encontrado");
 	}
 }
