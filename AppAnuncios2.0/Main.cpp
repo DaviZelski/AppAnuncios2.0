@@ -1,6 +1,4 @@
-#include "MainFrame.h"
 #include <wx/wx.h>
-#include "Anuncio.h"
 #include <SFML/Audio.hpp>
 #include <string>
 #include <shellapi.h>
@@ -8,7 +6,6 @@
 #include <wx/dirdlg.h>
 #include <wx/filedlg.h>
 #include <thread>
-#include "Main.h"
 #include <memory>
 #include <mmdeviceapi.h>
 #include <endpointvolume.h>
@@ -16,30 +13,48 @@
 #include <iostream>
 #include <Psapi.h>
 #include <vector>
+
+#include "Main.h"
+#include "MainFrame.h"
+#include "Anuncio.h"
 #define _CRT_SECURE_NO_WARNINGS
 
 
 #define  VOLUME_UP  1
 #define  VOLUME_DOWN  2
 
+//
+//void MainLogicLoop() {
+//    
+//}
 
-void TocarAnuncio(Anuncio* anuncio, int loopCount, int musicVolume) {
+
+
+void TocarAnuncio(Anuncio* anuncio) {
 
     std::vector<DWORD> spotifyPIDs;
     FindSpotifyPID(spotifyPIDs);
 
     for (DWORD spotifyPID : spotifyPIDs) {
-        SetVolumeForProcess(spotifyPID, musicVolume, VOLUME_DOWN);
+        SetVolumeForProcess(spotifyPID, (anuncio->getBckrMusicVol()), VOLUME_DOWN);
     }
     
     sf::Music announcementPlayer;
 
     if (!announcementPlayer.openFromFile(anuncio->GetFilePath())) {
-        wxLogStatus("caminho nao encontrado");
+
+        wxString string = wxString::Format("Caminho nao encontrado");
+        wxLogStatus(string);
         return;
+
+    }
+    else {
+        wxString string = wxString::Format("Tocando %s, com a musica no volume %d", anuncio->GetFilePath(), anuncio->getBckrMusicVol());
+        wxLogStatus(string);
     }
 
-    for (int i = 0; i < loopCount; i++) {
+
+    for (int i = 0; i < (anuncio->getLoopCount()); i++) {
         announcementPlayer.play();
 
         while (announcementPlayer.getStatus() == sf::Music::Playing) {

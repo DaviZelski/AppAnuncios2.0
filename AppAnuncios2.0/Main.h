@@ -1,6 +1,4 @@
-#include "MainFrame.h"
 #include <wx/wx.h>
-#include "Anuncio.h"
 #include <SFML/Audio.hpp>
 #include <string>
 #include <shellapi.h>
@@ -14,10 +12,15 @@
 #include <audiopolicy.h>
 #include <iostream>
 #include <vector>
+
+#include "MainFrame.h"
+#include "Anuncio.h"
 #define _CRT_SECURE_NO_WARNINGS
 
 
-void TocarAnuncio(Anuncio* anuncio, int loopCount, int musicVolume);
+//void MainLogicLoop();
+
+void TocarAnuncio(Anuncio* anuncio);
 
 void SetVolumeForProcess(DWORD processID, float volume, int VOLUME_CONTROL);
 

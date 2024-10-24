@@ -1,6 +1,4 @@
-#include "MainFrame.h"
 #include <wx/wx.h>
-#include "Anuncio.h"
 #include <SFML/Audio.hpp>
 #include <string>
 #include <shellapi.h>
@@ -8,28 +6,40 @@
 #include <wx/dirdlg.h>
 #include <wx/filedlg.h>
 #include <thread>
-#include "Main.h"
 #include <memory>
 #include <wx/spinctrl.h>
+
+#include "MainFrame.h"
+#include "Anuncio.h"
+#include "Main.h"
 #define _CRT_SECURE_NO_WARNINGS
 
 
 enum IDs {
 	PLAY_BUTTON = 2,
 	LOOP_CONTROL = 3,
-	VOLUME_SLIDER = 4
+	VOLUME_SLIDER = 4,
+	FILE_MENU = 5,
+	SET_FOLDER = 6
 };
 
 wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_BUTTON(PLAY_BUTTON, MainFrame::OnButtonClicked)
+	EVT_MENU(SET_FOLDER, MainFrame::SetMainFolder)
 wxEND_EVENT_TABLE();
 
 MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX)) {
 	
 	mainPanel = new wxPanel(this);
 	mainPanel->SetBackgroundColour(wxColour(0x57, 0x65, 0x6b)); // wxColour(0xXX, 0xXX, 0xXX) usar hexadecimal para mudar a cor, vou deixar cinza por enquanto
+	
+	menuBar = new wxMenuBar();
+	fileMenu = new wxMenu();
+	wxMenuItem* setFolder = new wxMenuItem(fileMenu, SET_FOLDER, "Escolher pasta de avisos");
+	fileMenu->Append(setFolder);
 
-	//wxMenuBar* menuBar = new wxMenuBar(2, ); https://docs.wxwidgets.org/3.2.5/classwx_menu_bar.html#aebc5627ed35e364d6a9785e22c0dde85
+	menuBar->Append(fileMenu, _("&Arquivos"));
+	SetMenuBar(menuBar);
 
 	playButton = new wxButton(mainPanel, PLAY_BUTTON, "Tocar Anúncio", wxPoint(100, 100), wxDefaultSize);
 	
@@ -41,6 +51,7 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, 
 
 
 	CreateStatusBar();
+
 	
 	
 }
@@ -51,43 +62,38 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, 
 void MainFrame::OnButtonClicked(wxCommandEvent& evt) {
 	Anuncio* anuncio = new Anuncio;
 
-	/*dlg = new wxDirDialog(mainPanel, "Escolha a pasta", "C:\\Users\\Davi\\Desktop\\avisos");
-	dlg->ShowModal();
-	dlg->GetPath();*/
-	//apenas para selecionar pastas e retornar o caminho, vou deixar aqui pq vai ser util mais tarde
-
 	
 
-	int loopCount = loopControl->GetValue();
+	anuncio->setLoopCount(loopControl->GetValue());
+	anuncio->setBckgrMusicVol(volumeSlider->GetValue());
 
-	fdlg = new wxFileDialog(mainPanel, "Escolha o anúncio", "C:\\Users\\Davi\\Desktop\\avisos");
+	wxString aFpath;
+
+
+	fdlg = new wxFileDialog(mainPanel, "Escolha o anúncio", getFolderPath());
 	if (fdlg->ShowModal() == wxID_CANCEL) {
 		return;  
 	}
 
+	
+
 	wxString fPathConv = wxString::Format("%s", fdlg->GetPath());
-	
 	anuncio->SetFilePath(fPathConv);
-	wxString pathVerify = wxString::Format("%s", anuncio->GetFilePath());
 
-	if (!announcementPlayer.openFromFile(anuncio->GetFilePath())) {
-
-		wxString string = wxString::Format("Caminho nao encontrado");
-		wxLogStatus(string);
-
-	}
-	else {
-		wxString string = wxString::Format("Tocando %s, com a musica no volume %d", anuncio->GetFilePath(), volumeSlider->GetValue());
-		wxLogStatus(string);
-	}
-
-	
-	int musicVolume = volumeSlider->GetValue();
-
-	thread anuncioThread(TocarAnuncio, anuncio, loopCount, musicVolume);
+	thread anuncioThread(TocarAnuncio, anuncio);
 	anuncioThread.detach();
 
 
 	
 	}
 
+void MainFrame::SetMainFolder(wxCommandEvent& evt) {
+
+	ddlg = new wxDirDialog(mainPanel, "Escolha a pasta", "C:\\Users\\User");
+	if (ddlg->ShowModal() == wxID_CANCEL) {
+		return;
+	}
+
+	SetFolderPath(ddlg->GetPath());
+
+}

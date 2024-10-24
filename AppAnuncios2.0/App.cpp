@@ -1,7 +1,12 @@
+#include <wx/wx.h>
+#include <thread>
+
 #include "App.h"
 #include "MainFrame.h"
-#include <wx/wx.h>
+#include "Main.h"
 #define _CRT_SECURE_NO_WARNINGS
+
+using namespace std;
 
 wxIMPLEMENT_APP(App);
 
@@ -10,6 +15,10 @@ bool App::OnInit() {
 	mainFrame->SetClientSize(800, 600);
 	mainFrame->Center();
 	mainFrame->Show();
+
+
+	/*thread MainLoopThread(MainLogicLoop);
+	MainLoopThread.detach();*/
 
 	return true;
 }

@@ -7,15 +7,21 @@ using namespace std;
 
 class Anuncio {
 private:
-	string filePath; //"C:\\Users\\Davi\\Desktop\\avisos\\fim do expediente.wav";
+	string filePath; 
+	int loopCount;
+	int bckgrMusicVol;
 public:
-	int SetFilePath(wxString wxFilePath) {
-		filePath = string(wxFilePath.mb_str());  
-		return 0;
-	}
+	void SetFilePath(wxString wxFilePath);
 
-	string GetFilePath() {
-		return filePath;
-	}
+	void setBckgrMusicVol(int mVol);
+
+	void setLoopCount(int SetloopCount);
+
+
+	string GetFilePath();
+
+	int getLoopCount();
+
+	int getBckrMusicVol();
 };
 
