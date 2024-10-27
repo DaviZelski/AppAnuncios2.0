@@ -18,7 +18,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 
-//void MainLogicLoop();
+void MainLogicLoop();
 
 void TocarAnuncio(Anuncio* anuncio);
 

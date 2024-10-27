@@ -19,6 +19,8 @@ public:
 		return folderPath;
 	}
 
+	wxString folderPath;
+
 private:
 	void OnButtonClicked(wxCommandEvent& evt);
 	void SetMainFolder(wxCommandEvent& evt);
@@ -27,7 +29,7 @@ private:
 
 	wxDECLARE_EVENT_TABLE();
 
-	wxString folderPath;
+	
 
 	wxMenuBar* menuBar;
 	wxMenu* fileMenu;

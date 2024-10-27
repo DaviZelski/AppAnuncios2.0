@@ -17,8 +17,8 @@ bool App::OnInit() {
 	mainFrame->Show();
 
 
-	/*thread MainLoopThread(MainLogicLoop);
-	MainLoopThread.detach();*/
+	thread MainLoopThread(MainLogicLoop);
+	MainLoopThread.detach();
 
 	return true;
 }

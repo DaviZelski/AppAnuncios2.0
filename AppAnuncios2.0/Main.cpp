@@ -23,10 +23,18 @@
 #define  VOLUME_UP  1
 #define  VOLUME_DOWN  2
 
-//
-//void MainLogicLoop() {
-//    
-//}
+void MainLogicLoop() {
+    Anuncio* anuncio = new Anuncio;
+
+
+    anuncio->setLoopCount(2);
+    anuncio->setBckgrMusicVol(17);
+
+    wxString fpath = wxString::Format("C:\\Users\\Usuario\\Desktop\\avisos park\\30 minutos para encerramento.wav");
+    anuncio->SetFilePath(fpath);
+
+    TocarAnuncio(anuncio);
+}
 
 
 

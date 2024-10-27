@@ -7,7 +7,7 @@ using namespace std;
 
 class Anuncio {
 private:
-	string filePath; 
+	string filePath;
 	int loopCount;
 	int bckgrMusicVol;
 public:
@@ -24,4 +24,3 @@ public:
 
 	int getBckrMusicVol();
 };
-

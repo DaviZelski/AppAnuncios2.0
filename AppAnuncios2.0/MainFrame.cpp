@@ -7,6 +7,7 @@
 #include <wx/filedlg.h>
 #include <thread>
 #include <memory>
+#include <wx/stdpaths.h>
 #include <wx/spinctrl.h>
 
 #include "MainFrame.h"
@@ -62,12 +63,11 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, 
 void MainFrame::OnButtonClicked(wxCommandEvent& evt) {
 	Anuncio* anuncio = new Anuncio;
 
-	
 
 	anuncio->setLoopCount(loopControl->GetValue());
 	anuncio->setBckgrMusicVol(volumeSlider->GetValue());
 
-	wxString aFpath;
+
 
 
 	fdlg = new wxFileDialog(mainPanel, "Escolha o anúncio", getFolderPath());
@@ -89,7 +89,9 @@ void MainFrame::OnButtonClicked(wxCommandEvent& evt) {
 
 void MainFrame::SetMainFolder(wxCommandEvent& evt) {
 
-	ddlg = new wxDirDialog(mainPanel, "Escolha a pasta", "C:\\Users\\User");
+	wxString desktopPath = wxStandardPaths::Get().GetUserDir(wxStandardPaths::Dir_Desktop);
+
+	ddlg = new wxDirDialog(mainPanel, "Escolha a pasta", desktopPath);
 	if (ddlg->ShowModal() == wxID_CANCEL) {
 		return;
 	}
